@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using HtmlAgilityPack;
 
@@ -19,9 +20,12 @@ namespace HTMLToolLogic
         private readonly string _response2 = ConfigurationManager.AppSettings["Pair 4.1"];
         private readonly string _twoTen = ConfigurationManager.AppSettings["Pair 4.2"];
 
-        public List<Result> GetResults(List<string> fileList)
+        private List<string> fileList = new List<string>();
+
+        public List<Result> GetResults(string folderLocation)
         {
             //setup
+            PopulateFileList(folderLocation);
             var resultsList = new List<Result>();
 
             //build node list
@@ -35,6 +39,14 @@ namespace HTMLToolLogic
 
             return resultsList;
         }
+
+
+        private void PopulateFileList(string folderLocation)
+        {
+            string[] filePaths = Directory.GetFiles(@folderLocation, "*.html", SearchOption.TopDirectoryOnly);
+            fileList = filePaths.ToList();
+        }
+
 
         private List<string> ConvertHtmlToList(List<string> fileList)
         {

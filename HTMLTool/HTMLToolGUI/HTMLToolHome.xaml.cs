@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,29 +30,14 @@ namespace HTMLToolGUI
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             var logic = new Logic();
-            var fileList = new List<string>();
+            var FolderLocation = "";
 
-            if (Location1.Text != "Sink Node Trace Location (required)" || Location1.Text != "")
+            if (Location.Text != "Trace Folder Location" || Location.Text != "")
             {
-                fileList.Add(Location1.Text);
+                FolderLocation = Location.Text;
             }
 
-            if (Location2.Text != "Overflow of Sink Node Trace Location (optional)" || Location1.Text != "")
-            {
-                fileList.Add(Location2.Text);
-            }
-
-            if (Location3.Text != "Overflow of Sink Node Trace Location (optional)" || Location1.Text != "")
-            {
-                fileList.Add(Location3.Text);
-            }
-
-            if (Location4.Text != "Overflow of Sink Node Trace Location (optional)" || Location1.Text != "")
-            {
-                fileList.Add(Location4.Text);
-            }
-
-            var results = logic.GetResults(fileList);
+            var results = logic.GetResults(FolderLocation);
             var htmlToolResults = new HTMLToolResults(results);
             this.NavigationService.Navigate(htmlToolResults);
         }
@@ -74,91 +60,13 @@ namespace HTMLToolGUI
             {
                 // Open document 
                 string filename = dlg.FileName;
-                Location1.Text = filename;
-            }
-        }
-
-        private void Browse2_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".html",
-                Filter = "HTML Files (*.html)|*.html"
-            };
-            
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                string filename = dlg.FileName;
-                Location2.Text = filename;
-            }
-        }
-
-        private void Browse3_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".html",
-                Filter = "HTML Files (*.html)|*.html"
-            };
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                string filename = dlg.FileName;
-                Location3.Text = filename;
-            }
-        }
-
-        private void Browse4_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".html",
-                Filter = "HTML Files (*.html)|*.html"
-            };
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                string filename = dlg.FileName;
-                Location4.Text = filename;
+                Location.Text = filename;
             }
         }
 
         private void Clear1_Click(object sender, RoutedEventArgs e)
         {
-            Location1.Text = "";
-        }
-        private void Clear2_Click(object sender, RoutedEventArgs e)
-        {
-            Location2.Text = "";
-        }
-        private void Clear3_Click(object sender, RoutedEventArgs e)
-        {
-            Location3.Text = "";
-        }
-        private void Clear4_Click(object sender, RoutedEventArgs e)
-        {
-            Location4.Text = "";
+            Location.Text = "";
         }
     }
 }
