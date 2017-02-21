@@ -81,8 +81,8 @@ namespace HTMLToolLogic
             {
                 if (_nodeList[i].Contains(from))
                 {
-                    var k = i + 1;
-                    while (k < i + userNumber && k < _nodeList.Count)
+                    var k = i;
+                    while (i < k + userNumber && k < _nodeList.Count)
                     {
                         if (!_nodeList[k].Contains(to))
                         {
