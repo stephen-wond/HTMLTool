@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -22,24 +23,28 @@ namespace HTMLToolGUI
     /// </summary>
     public partial class HTMLToolHome : Page
     {
+        private readonly BackgroundWorker _backgroundWorker;
+        private Logic logic = new Logic();
+        private List<Result> _results = new List<Result>();
+        private String _folderLocation = "";
+
         public HTMLToolHome()
         {
             InitializeComponent();
+            _backgroundWorker = (BackgroundWorker) this.Resources["BackgroundWorker"];
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            var logic = new Logic();
-            var FolderLocation = "";
-
             if (Location.Text != "Trace Folder Location" || Location.Text != "")
             {
-                FolderLocation = Location.Text;
+                _folderLocation = Location.Text;
             }
 
-            var results = logic.GetResults(FolderLocation);
-            var htmlToolResults = new HTMLToolResults(results);
-            this.NavigationService.Navigate(htmlToolResults);
+            _backgroundWorker.RunWorkerAsync(_folderLocation);
+
+            ExecuteButton.IsEnabled = !_backgroundWorker.IsBusy;
+            CancelButton.IsEnabled = _backgroundWorker.IsBusy;
         }
 
         private void Browse1_Click(object sender, RoutedEventArgs e)
@@ -67,6 +72,28 @@ namespace HTMLToolGUI
         private void Clear1_Click(object sender, RoutedEventArgs e)
         {
             Location.Text = "";
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string folderLocation = (string) e.Argument;
+            _results = logic.GetResults(folderLocation);
+            e.Result = _results;
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var htmlToolResults = new HTMLToolResults((List<Result>)e.Result);
+
+            ExecuteButton.IsEnabled = _backgroundWorker.IsBusy;
+            CancelButton.IsEnabled = !_backgroundWorker.IsBusy;
+
+            this.NavigationService.Navigate(htmlToolResults);
         }
     }
 }
