@@ -31,7 +31,16 @@ namespace HTMLToolGUI
         public HTMLToolHome()
         {
             InitializeComponent();
+
+            //background process
             _backgroundWorker = (BackgroundWorker) this.Resources["BackgroundWorker"];
+
+            //progress reporting
+            _backgroundWorker.WorkerReportsProgress = true;
+            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
+
+            //background cancelation
+            _backgroundWorker.WorkerSupportsCancellation = true;
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
@@ -45,6 +54,7 @@ namespace HTMLToolGUI
 
             ExecuteButton.IsEnabled = !_backgroundWorker.IsBusy;
             CancelButton.IsEnabled = _backgroundWorker.IsBusy;
+            Rectangle1.Visibility = Visibility.Visible;
         }
 
         private void Browse1_Click(object sender, RoutedEventArgs e)
@@ -76,13 +86,20 @@ namespace HTMLToolGUI
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _backgroundWorker.CancelAsync();
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string folderLocation = (string) e.Argument;
+            //here we need to sperate out all the functions into seperate calls 
             _results = logic.GetResults(folderLocation);
+            //process files
+            //add to list
+            //create an object and perform all actions on this object
+            //compare times for file one 25%
+            //compare times for file two 50%
+            //will also allow for use of cancelations
             e.Result = _results;
         }
 
@@ -92,8 +109,14 @@ namespace HTMLToolGUI
 
             ExecuteButton.IsEnabled = _backgroundWorker.IsBusy;
             CancelButton.IsEnabled = !_backgroundWorker.IsBusy;
+            Rectangle1.Visibility = Visibility.Hidden;
 
             this.NavigationService.Navigate(htmlToolResults);
+        }
+
+        private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

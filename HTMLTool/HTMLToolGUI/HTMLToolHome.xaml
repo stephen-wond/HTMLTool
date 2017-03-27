@@ -20,7 +20,7 @@
         <Button x:Name="Browse1" Content="Browse" HorizontalAlignment="Left" Margin="395,111,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="Browse1_Click" IsEnabled="False"/>
         <TextBox x:Name="Location" HorizontalAlignment="Left" Height="23" Margin="25,111,0,0" TextWrapping="NoWrap" Text="C:\Traces\" VerticalAlignment="Top" Width="370"/>
         <Button x:Name="Clear1" Content="X" HorizontalAlignment="Left" Margin="375,111,0,0" VerticalAlignment="Top" Width="23" Height="23" Click="Clear1_Click"/>
-        <ProgressBar HorizontalAlignment="Left" Height="28" Margin="25,139,0,0" VerticalAlignment="Top" Width="435"/>
+        <Rectangle x:Name="Rectangle1" Fill="Black" HorizontalAlignment="Center" Height="350" Stroke="Black" VerticalAlignment="Center" Opacity=".5" Width="650" Margin="-56,-28,-24,-32" Visibility="Hidden"/>
         <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="245,212,0,0" VerticalAlignment="Top" Width="110" Height="33" FontSize="18" Click="CancelButton_Click"/>
     </Grid>
 </Page>
