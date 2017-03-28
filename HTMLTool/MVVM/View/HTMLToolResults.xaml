@@ -1,0 +1,26 @@
+﻿<Page x:Class="MVVM.View.HTMLToolResults"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:model="clr-namespace:MVVM.Model"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="500"
+      Title="HTMLTool - Results">
+
+    <Grid Margin="10,0,10,10">
+        <ListView Name="ResultsList" Height="auto"  Width="auto" HorizontalAlignment="Center" Margin="10,10,10,10" VerticalAlignment="Center"  ItemsSource="{Binding Results}"  >
+            <ListView.View>
+                <GridView x:Name="ResultsGrid">
+                    <GridViewColumn Header="Direction" DisplayMemberBinding="{Binding Direction}"  Width="auto"/>
+                    <GridViewColumn Header="Avg(ms)" DisplayMemberBinding="{Binding Average}"  Width="auto" />
+                    <GridViewColumn Header="Min(ms)" DisplayMemberBinding="{Binding Min}" Width="auto" />
+                    <GridViewColumn Header="Max(ms)" DisplayMemberBinding="{Binding Max}" Width="auto" />
+                    <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}" Width="auto" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label x:Name="Title" Content="HTML Tool - Results Page" HorizontalAlignment="Center" Margin="20,10,85,237" VerticalAlignment="Center" Width="375" FontSize="20" Height="43"/>
+
+    </Grid>
+</Page>

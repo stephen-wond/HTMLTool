@@ -12,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HTMLToolLogic;
 
-namespace HTMLToolGUI
+namespace MVVM.View
 {
     /// <summary>
-    /// Interaction logic for HTMLToolResults.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class HTMLToolResults : Page
+    public partial class MainWindow : NavigationWindow
     {
-        public HTMLToolResults(List<Result> result)
+        public MainWindow()
         {
             InitializeComponent();
-            DataGrid.ItemsSource = result;
         }
     }
 }
