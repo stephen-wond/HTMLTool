@@ -93,7 +93,7 @@ namespace MVVM.View
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var htmlToolResults = new HTMLToolResults((List<HTMLToolModel>)e.Result);
+            var htmlToolResults = new HTMLToolResults(_folderLocation);
 
             ExecuteButton.IsEnabled = _backgroundWorker.IsBusy;
             CancelButton.IsEnabled = !_backgroundWorker.IsBusy;

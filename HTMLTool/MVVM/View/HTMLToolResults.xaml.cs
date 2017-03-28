@@ -10,10 +10,9 @@ namespace MVVM.View
     /// </summary>
     public partial class HTMLToolResults : Page
     {
-        public HTMLToolResults(List<HTMLToolModel> result)
+        public HTMLToolResults(string folderLoc)
         {
-            
-            HTMLToolViewModel VM = new HTMLToolViewModel();
+            HTMLToolViewModel VM = new HTMLToolViewModel(folderLoc);
             DataContext = VM;
             InitializeComponent();
         }
