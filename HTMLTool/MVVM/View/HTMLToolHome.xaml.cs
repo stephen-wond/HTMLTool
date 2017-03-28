@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using MVVM.Model;
+using MVVM.ViewModel;
 
 namespace MVVM.View
 {
@@ -15,6 +16,7 @@ namespace MVVM.View
         private readonly BackgroundWorker _backgroundWorker;
         private List<HTMLToolModel> _results = new List<HTMLToolModel>();
         private String _folderLocation = "";
+        private HTMLToolViewModel vm;
 
         public HTMLToolHome()
         {
@@ -80,20 +82,13 @@ namespace MVVM.View
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string folderLocation = (string) e.Argument;
-            //here we need to sperate out all the functions into seperate calls 
-            //_results = logic.GetResults(folderLocation);
-            //process files
-            //add to list
-            //create an object and perform all actions on this object
-            //compare times for file one 25%
-            //compare times for file two 50%
-            //will also allow for use of cancelations
+            vm = new HTMLToolViewModel(folderLocation);
             e.Result = _results;
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var htmlToolResults = new HTMLToolResults(_folderLocation);
+            var htmlToolResults = new HTMLToolResults(vm);
 
             ExecuteButton.IsEnabled = _backgroundWorker.IsBusy;
             CancelButton.IsEnabled = !_backgroundWorker.IsBusy;
