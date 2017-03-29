@@ -16,7 +16,7 @@ namespace MVVM.View
         private readonly BackgroundWorker _backgroundWorker;
         private List<HTMLToolModel> _results = new List<HTMLToolModel>();
         private String _folderLocation = "";
-        private HTMLToolViewModel vm;
+        private HTMLToolViewModel _vm = new HTMLToolViewModel();
 
         public HTMLToolHome()
         {
@@ -24,49 +24,19 @@ namespace MVVM.View
 
             //background process
             _backgroundWorker = (BackgroundWorker) this.Resources["BackgroundWorker"];
-
-            //progress reporting
-            _backgroundWorker.WorkerReportsProgress = true;
-            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
-
+            
             //background cancelation
             _backgroundWorker.WorkerSupportsCancellation = true;
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Location.Text != "Trace Folder Location" || Location.Text != "")
-            {
-                _folderLocation = Location.Text;
-            }
-
-            _backgroundWorker.RunWorkerAsync(_folderLocation);
-
-            ExecuteButton.IsEnabled = !_backgroundWorker.IsBusy;
-            CancelButton.IsEnabled = _backgroundWorker.IsBusy;
-            Rectangle1.Visibility = Visibility.Visible;
+            HTMLToolViewModel.Execute();
         }
 
         private void Browse1_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".html",
-                Filter = "HTML Files (*.html)|*.html"
-            };
-            
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                string filename = dlg.FileName;
-                Location.Text = filename;
-            }
+            HTMLToolViewModel.Browse();
         }
 
         private void Clear1_Click(object sender, RoutedEventArgs e)
@@ -76,30 +46,17 @@ namespace MVVM.View
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            _backgroundWorker.CancelAsync();
+            HTMLToolViewModel.Cancel();
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string folderLocation = (string) e.Argument;
-            vm = new HTMLToolViewModel(folderLocation);
-            e.Result = _results;
+            HTMLToolViewModel.DoWork();
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var htmlToolResults = new HTMLToolResults(vm);
-
-            ExecuteButton.IsEnabled = _backgroundWorker.IsBusy;
-            CancelButton.IsEnabled = !_backgroundWorker.IsBusy;
-            Rectangle1.Visibility = Visibility.Hidden;
-
-            this.NavigationService.Navigate(htmlToolResults);
-        }
-
-        private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            throw new NotImplementedException();
+            HTMLToolViewModel.Complete();
         }
     }
 }
